@@ -4,14 +4,29 @@ namespace RockPaperScissors
 {
     class Program
     {
+        static void ShowRules()
+        {
+            Console.WriteLine("\n=== ПРАВИЛА ИГРЫ ===");
+            Console.WriteLine("Камень побеждает ножницы");
+            Console.WriteLine("Ножницы побеждают бумагу");
+            Console.WriteLine("Бумага побеждает камень");
+            Console.WriteLine("====================\n");
+        }
         static void Main(string[] args)
         {
             Console.WriteLine("=== ИГРА 'КАМЕНЬ-НОЖНИЦЫ-БУМАГА' ===\n");
+
+            ShowRules();
 
             bool playAgain = true;
             int playerScore = 0;
             int computerScore = 0;
             int rounds = 0;
+
+            // История результатов
+            int wins = 0;
+            int losses = 0;
+            int draws = 0;
 
             while (playAgain)
             {
@@ -44,6 +59,22 @@ namespace RockPaperScissors
                 string result = DetermineWinner(playerChoice, computerChoice);
                 Console.WriteLine($"\nРезультат: {result}");
 
+                // Обновление статистики
+                if (result.Contains("победили"))
+                {
+                    playerScore++;
+                    wins++;
+                }
+                else if (result.Contains("Компьютер"))
+                {
+                    computerScore++;
+                    losses++;
+                }
+                else
+                {
+                    draws++;
+                }
+
                 // Обновление счета
                 if (result.Contains("победили"))
                     playerScore++;
@@ -67,6 +98,12 @@ namespace RockPaperScissors
                 Console.WriteLine("Компьютер выиграл матч. Попробуйте еще раз!");
             else
                 Console.WriteLine("Матч закончился вничью!");
+
+            Console.WriteLine("\n=== СТАТИСТИКА ===");
+            Console.WriteLine($"Побед: {wins}");
+            Console.WriteLine($"Поражений: {losses}");
+            Console.WriteLine($"Ничьих: {draws}");
+            Console.WriteLine($"Процент побед: {(rounds > 0 ? (wins * 100 / rounds) : 0)}%");
 
             Console.WriteLine("\nСпасибо за игру! Нажмите любую клавишу для выхода...");
             Console.ReadKey();
